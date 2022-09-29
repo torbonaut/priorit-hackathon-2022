@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MemberGuard } from './core/guards/member.guard';
+import { AuthGuard } from './core/auth/auth.guard';
 
 const TITLE_PREFIX = 'priorIT SomeApp - ';
 
@@ -11,7 +11,7 @@ export const ROUTES: Routes = [
     },
     {
         path: 'member',
-        canActivate: [MemberGuard],
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'welcome',

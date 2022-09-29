@@ -3,11 +3,11 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Store } from "@ngxs/store";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Observable, tap } from "rxjs";
-import { Auth } from "../auth/auth.actions";
-import { AuthState } from "../auth/auth.state";
+import { Auth } from "./auth.actions";
+import { AuthState } from "./auth.state";
 
 @Injectable({ providedIn: 'root'})
-export class MemberGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
     isAuthenticated$: Observable<boolean>;
         
     constructor(

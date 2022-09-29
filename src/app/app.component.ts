@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AppHeaderTitleService } from './app-header-title.service';
 import { Auth } from './core/auth/auth.actions';
+import { AuthState } from './core/auth/auth.state';
 
 @Component({
     selector: 'app-root',
@@ -13,9 +14,10 @@ import { Auth } from './core/auth/auth.actions';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnDestroy {
-    isCollapsed = false;
-    headerTitle$: Observable<string>;
     private unsubscribe$: Subject<void> = new Subject();
+    headerTitle$: Observable<string>;
+    isCollapsed = true;
+    isAuthenticated$: Observable<boolean>;
 
     constructor(
         headerTitleService: AppHeaderTitleService,
@@ -26,13 +28,15 @@ export class AppComponent implements OnDestroy {
     ) {
         this.headerTitle$ = headerTitleService.get();
 
-        this.actions$.pipe(
-            ofActionSuccessful(Auth.Logout),
-            takeUntil(this.unsubscribe$)
-        ).subscribe(() => {
-            this.navigate('/login');
-            this.msg.info('Sie wurden abgemeldet.');
-        });
+        this.actions$
+            .pipe(ofActionSuccessful(Auth.Logout), takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+                this.router.navigateByUrl('/login');
+                this.isCollapsed = true;
+                this.msg.info('Sie wurden abgemeldet.');
+            });
+
+        this.isAuthenticated$ = this.store.select(AuthState.isAuthenticated);
     }
 
     ngOnDestroy(): void {
@@ -40,9 +44,9 @@ export class AppComponent implements OnDestroy {
         this.unsubscribe$.complete();
     }
 
-    navigate(path: string) {
-        this.isCollapsed = true;
-        this.router.navigateByUrl(path);
+    navigate(path: string): string {
+        //this.isCollapsed = true;
+        return path;
     }
 
     logout() {

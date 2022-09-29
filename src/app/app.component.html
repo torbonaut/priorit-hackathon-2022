@@ -21,24 +21,25 @@
             nzTheme="dark"
             nzMode="inline"
             [nzInlineCollapsed]="isCollapsed"
+            *ngIf="!isCollapsed"
         >
-            <li nz-submenu nzOpen nzTitle="Allgemein" nzIcon="appstore">
+            <li  *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Allgemein" nzIcon="appstore">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a (click)="navigate('/member/welcome')">Willkommen</a>
+                        <a [routerLink]="navigate('/member/welcome')">Willkommen</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
-                        <a (click)="navigate('/member/profile')">Benutzerprofil</a>
+                        <a [routerLink]="navigate('/member/profile')">Benutzerprofil</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a (click)="logout()">Abmelden</a>
                     </li>
                 </ul>
             </li>
-            <li nz-submenu nzOpen nzTitle="Test" nzIcon="form">
+            <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Test" nzIcon="form">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a (click)="navigate('/member/dummy')">Dummy</a>
+                        <a [routerLink]="navigate('/member/dummy')">Dummy</a>
                     </li>
                 </ul>
             </li>
