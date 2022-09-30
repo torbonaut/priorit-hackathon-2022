@@ -1,0 +1,49 @@
+<h1 nz-typography>Bild</h1>
+
+<ng-container *ngIf="picture$ | async as picture">
+    <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
+            
+    <div class="info">
+        <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.createdBy }}</span></h3>
+        <span>{{ picture.createdDate | date:'d. MMMM yyyy, HH:mm' }}</span>
+    </div>
+</ng-container>
+
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="title">Dein Tip</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input formControlName="myTip" name="myTip" type="text" id="myTip" style="width: 100%;">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-col [nzOffset]="4" nz-button nzType="primary">Tipp abgeben</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+
+<h1 nz-typography>Tipps</h1>
+
+<ng-container
+    *ngIf="allPictureTips$ | async as other; else noTips"
+>
+    <ng-container *ngIf="other.length > 0; else noTips">
+        <div class="tip" *ngFor="let tip of other">
+            <div class="info">
+                <h3 nz-typography>{{ tip.tip }}<br /></h3>
+            </div>
+            <div class="action">
+                <button nz-button>OK</button>
+            </div>
+
+        </div>
+    </ng-container>
+</ng-container>
+
+<ng-template #noTips>
+    Leider keine Tips vorhanden
+</ng-template>
+
+{{ allPictureTips$ | async | json }}
