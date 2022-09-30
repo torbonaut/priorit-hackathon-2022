@@ -15,7 +15,7 @@ export class AppointmentsService {
         return this.http.get<AppointmentsApiResponse>(this.API_URL);
     }
 
-    addAppointment(item: Omit<Appointment, "id">) {
+    addAppointment(item: Omit<Appointment, "id" | 'createdBy' | 'createdDate'>) {
         return this.http.post(this.API_URL, { ...item });
     }
 
