@@ -36,7 +36,7 @@
                     </li>
                 </ul>
             </li>
-            <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Test" nzIcon="form">
+            <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Apps" nzIcon="form">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
                         <a [routerLink]="navigate('/member/dummy')">Dummy</a>
@@ -66,6 +66,5 @@
                 <router-outlet></router-outlet>
             </div>
         </nz-content>
-        <nz-footer>Yolo Bolo</nz-footer>
     </nz-layout>
 </nz-layout>

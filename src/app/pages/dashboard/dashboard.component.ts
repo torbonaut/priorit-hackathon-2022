@@ -3,16 +3,16 @@ import { Subscription } from 'rxjs';
 import { AppHeaderTitleService } from 'src/app/app-header-title.service';
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class WelcomeComponent {
+export class DashboardComponent {
 
   subscription: Subscription = new Subscription();
 
   constructor(private readonly headerTitleService: AppHeaderTitleService) {
-    this.headerTitleService.set('Willkommen');
+    this.headerTitleService.set('Dashboard');
   }
 
 }

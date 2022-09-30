@@ -27,7 +27,7 @@ export class AppLoginComponent implements OnDestroy {
                 ofActionSuccessful(Auth.Login),
                 takeUntil(this.unsubscribe$)
             )
-            .subscribe(() => { this.router.navigateByUrl('/member/welcome'); });
+            .subscribe(() => { this.router.navigateByUrl('/member/dashboard'); });
     }
 
     ngOnDestroy(): void {

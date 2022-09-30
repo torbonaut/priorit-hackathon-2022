@@ -16,8 +16,8 @@ export const ROUTES: Routes = [
             {
                 path: 'dashboard',
                 loadChildren: () =>
-                    import('./pages/welcome/welcome.module').then(
-                        (m) => m.WelcomeModule
+                    import('./pages/dashboard/dashboard.module').then(
+                        (m) => m.DashboardModule
                     ),
                 title: TITLE_PREFIX + 'Dashboard',
             },
