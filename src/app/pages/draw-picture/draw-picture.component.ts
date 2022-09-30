@@ -1,13 +1,14 @@
 import { PictureUpload } from './../../core/picture-it/picture-it.model';
 import { Pictures } from './../../core/picture-it/picture-it.actions';
 import {
-    Component, Input, ElementRef, AfterViewInit, ViewChild, ChangeDetectionStrategy
+    Component, Input, ElementRef, AfterViewInit, ViewChild, ChangeDetectionStrategy, NgZone
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { fromEvent } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators'
 import { AppHeaderTitleService } from 'src/app/app-header-title.service';
+import {  Router } from '@angular/router';
 
 @Component({
     selector: 'draw-picture',
@@ -34,6 +35,8 @@ export class DrawPictureComponent {
     constructor(
         headerTitleService: AppHeaderTitleService,
         private store: Store,
+        private readonly ngZone: NgZone,
+        private readonly router: Router
     ) {
         headerTitleService.set('Zeichne ein Bild');
 
@@ -117,7 +120,7 @@ export class DrawPictureComponent {
             tip: this.form.value.tip || '',
         };
         this.store.dispatch(
-            new Pictures.UploadFile(pictureUpload))
+            new Pictures.UploadFile(pictureUpload)).subscribe( () => this.ngZone.run( () => this.router.navigateByUrl('/member/picture-it')));
     }
 
     private dataURItoBlob(dataURI:string):Blob {

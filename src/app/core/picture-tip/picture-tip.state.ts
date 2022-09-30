@@ -25,7 +25,19 @@ export class PictureTipState {
     
     @Action(PictureTips.Add)
     add(ctx: StateContext<PictureTipStateModel>, action: PictureTips.Add) {
+        console.log('<olo');
         return this.pictureTipService.addPictureTips(action.payload).pipe(
+            tap( (response: { data: PictureTip }) => {
+                const state = ctx.getState();
+                const ids = [...state.ids];
+                const items = { ...state.items };
+                const newItem = {...response.data };
+                ids.push(response.data.id);
+                items[response.data.id] = newItem;
+
+                ctx.setState({ items, ids });
+
+            }),
             mergeMap(() => this.store.dispatch(new PictureTips.Refresh))
         );
     }

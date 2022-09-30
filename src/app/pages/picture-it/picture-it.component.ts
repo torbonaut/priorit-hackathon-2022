@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { filter, map, Observable, pipe, Subject, Subscription, takeUntil, tap, withLatestFrom } from 'rxjs';
@@ -27,6 +27,7 @@ export class PictureItComponent {
         headerTitleService: AppHeaderTitleService,
         private readonly store: Store,
         private readonly router: Router,
+        private readonly ngZone: NgZone
     ) {
         headerTitleService.set('Tipp abgeben');
 
@@ -35,15 +36,15 @@ export class PictureItComponent {
         this.allPictures$ = this.store.select(PicturesState.all);
 
         this.newPictures$ = this.allPictures$.pipe(
-            withLatestFrom(this.user$),
-            map(([pictures]) =>
+            filter(pictures => !!pictures),
+            map(pictures =>
                 pictures.filter((item) => item.is_open)
             )
         );
         
         this.oldPictures$ = this.allPictures$.pipe(
-            withLatestFrom(this.user$),
-            map(([pictures]) =>
+            filter( pictures => !!pictures),
+            map(pictures =>
                 pictures.filter((item) => !item.is_open)
             )
         );
@@ -51,7 +52,7 @@ export class PictureItComponent {
     }
 
     openPicture(picture: Picture) {
-        this.router.navigateByUrl('/member/picture-tip/picture/' + picture.id);
+        this.ngZone.run(() =>this.router.navigateByUrl('/member/picture-tip/picture/' + picture.id));
     }
 
     submitForm(): void {

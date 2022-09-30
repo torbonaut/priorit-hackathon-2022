@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, NgZone, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Actions, ofActionSuccessful, Store } from "@ngxs/store";
@@ -42,6 +42,7 @@ export class PictureTipComponent implements OnDestroy{
         private readonly router: Router,
         private route: ActivatedRoute,
         private readonly actions$: Actions,
+        private readonly ngZone: NgZone
     ) {
         this.pictureId = 0;
         this.route.params.subscribe(params => {
@@ -79,19 +80,12 @@ export class PictureTipComponent implements OnDestroy{
             )
         );
 
-        this.actions$
-            .pipe(
-                ofActionSuccessful(PictureTips.Add),
-                takeUntil(this.unsubscribe$)
-            )
-            .subscribe(() => { this.router.navigateByUrl('/member/picture-tip/picture' + this.pictureId); });
-
             this.actions$
             .pipe(
                 ofActionSuccessful(Pictures.Update),
                 takeUntil(this.unsubscribe$)
             )
-            .subscribe(() => { this.router.navigateByUrl('/member/picture-it'); });
+            .subscribe(() => { this.ngZone.run(() => this.router.navigateByUrl('/member/picture-it')); });
 
     }
 

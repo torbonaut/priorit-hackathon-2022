@@ -14,8 +14,8 @@ export class PictureTipService {
         return this.http.get<PictureTipApiResponse>(this.API_URL);
     }
 
-    addPictureTips(item: Omit<PictureTip, "id" | 'user_created' | 'date_created'>) {
-        return this.http.post(this.API_URL, { ...item });
+    addPictureTips(item: Omit<PictureTip, "id" | 'user_created' | 'date_created'>): Observable<{ data: PictureTip }> {
+        return this.http.post<{ data: PictureTip}>(this.API_URL, { ...item });
     }
 
     updatePictureTips(id: number, is_correct: boolean) {
