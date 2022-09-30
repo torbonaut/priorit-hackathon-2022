@@ -25,7 +25,7 @@ export class AddAppointmentComponent {
     // when: FormControl = new FormControl();
     // category:FormControl = new FormControl();
     selectedUsers: string[] = [];
-    availableUsers: string[] = ["Max Muster", "Susi Sorglos"];
+    availableUsers: string[] = ["Rene 'grumpymorningface' Rassnitzer", "Andrea 'evilface' Svetnik", "Raimund 'Bierolee' Antonitsch"];
 
     constructor(
         headerTitleService: AppHeaderTitleService,

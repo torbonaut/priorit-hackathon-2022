@@ -1,10 +1,12 @@
 export interface Appointment {
     id: number;
-    createdBy: number;
-    createdDate: string;
-    when: string;
+    user_created: string;
+    date_created: string;
+    appointmentDateTime: string;
     category: string;
     title: string;
+    avatar: string;
+    participants: string;
 }
 
 export interface AppointmentsStateModel {

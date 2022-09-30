@@ -15,18 +15,27 @@ h2 {
 div.event {
     display: flex;
     width: 100%;
+    margin-bottom: 2em;
 
     img.avatar {
         flex: 0 0 64px;
+        width: 64px;
+        height: 64px;
     }
 
     div.info {
         padding: 0 1em;
         flex: 1 1 auto;
         h3 {
+            margin: 0; line-height: 1em;
+            span {
+                color: #777;
+                font-size: 12px;
+            }
         }
 
         span {
+            margin-top: 10px;
         }
     }
 
