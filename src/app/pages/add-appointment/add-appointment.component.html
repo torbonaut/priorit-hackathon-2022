@@ -1,10 +1,13 @@
 <form nz-form>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="category">Kategorie</nz-form-label>
-        <nz-select id="category" formControlName="category" nzPlaceHolder="Wähle eine Kategorie aus ...">
-            <nz-option nzValue="Spaß in der Kaffeepause" nzLabel="Spaß in der Kaffeepause"></nz-option>
-            <nz-option nzValue="Spaß mit Bier" nzLabel="Spaß mit Bier"></nz-option>
-        </nz-select>
+        <nz-form-control [nzSpan]="14">
+            <nz-select id="category" formControlName="category" nzPlaceHolder="Wähle eine Kategorie aus ...">
+                <nz-option nzValue="Spaß in der Kaffeepause" nzLabel="Spaß in der Kaffeepause"></nz-option>
+                <nz-option nzValue="Spaß mit Bier" nzLabel="Spaß mit Bier"></nz-option>
+                <nz-option nzValue="Spaß durch Bewegung" nzLabel="Spaß durch Bewegung"></nz-option>
+            </nz-select>
+        </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="title">Thema</nz-form-label>
@@ -14,13 +17,17 @@
     </nz-form-item>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="time">Datum / Zeit</nz-form-label>
-        <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel></nz-date-picker>
+        <nz-form-control [nzSpan]="14">
+            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel></nz-date-picker>
+        </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="inviteUsers">Benutzer einladen</nz-form-label>
+        <nz-form-control [nzSpan]="14">
         <nz-select id="inviteUsers" nzMode="tags" nzPlaceHolder="Benutzer auswählen">
             <nz-option *ngFor="let user of availableUsers" [nzLabel]="user" [nzValue]="user"></nz-option>
-          </nz-select>
+        </nz-select>
+    </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-control>
