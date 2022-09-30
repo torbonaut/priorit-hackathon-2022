@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Actions, ofActionSuccessful, Store } from "@ngxs/store";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { AppHeaderTitleService } from "src/app/app-header-title.service";
@@ -6,7 +6,7 @@ import { User } from "src/app/core/user/user.actions";
 import { UserStateModel } from "src/app/core/user/user.model";
 import { UserState } from "src/app/core/user/user.state";
 import { Appointments } from 'src/app/core/appointments/appointments.actions';
-import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 
 @Component({
@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
     templateUrl: './add-appointment.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddAppointmentComponent implements OnDestroy {
+export class AddAppointmentComponent implements OnInit, OnDestroy {
     private unsubscribe$: Subject<void> = new Subject();
     userData$: Observable<UserStateModel>;
     form = new FormGroup({
@@ -32,15 +32,12 @@ export class AddAppointmentComponent implements OnDestroy {
         private store: Store,
         private readonly router: Router,
         private readonly actions$: Actions,
-        private fb: UntypedFormBuilder
+        private fb: UntypedFormBuilder,
+        private readonly ngZone: NgZone
     ) {
         headerTitleService.set('Neue Aktivität');
 
-        const isUserLoaded: boolean = store.selectSnapshot<boolean>(UserState.isLoaded);
 
-        if (!isUserLoaded) {
-            store.dispatch(new User.GetCurrent());
-        }
 
         this.userData$ = store.select(UserState.userData);
 
@@ -49,7 +46,17 @@ export class AddAppointmentComponent implements OnDestroy {
                 ofActionSuccessful(Appointments.Add),
                 takeUntil(this.unsubscribe$)
             )
-            .subscribe(() => { this.router.navigateByUrl('/member/dashboard'); });
+            .subscribe(() => { this.ngZone.run(() => this.router.navigateByUrl('/member/dashboard')); });
+    }
+
+    ngOnInit(): void {
+          const isUserLoaded: boolean = this.store.selectSnapshot<boolean>(
+              UserState.isLoaded
+          );
+
+          if (!isUserLoaded) {
+              this.store.dispatch(new User.GetCurrent());
+          }      
     }
 
     ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, ofActionErrored, ofActionSuccessful, Store } from '@ngxs/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -25,6 +25,7 @@ export class AppLoginComponent implements OnDestroy {
         private readonly store: Store,
         private readonly actions$: Actions,
         private readonly msg: NzMessageService,
+        private readonly ngZone: NgZone
     ) {
         headerTitleService.set('Anmelden');
 
@@ -33,7 +34,7 @@ export class AppLoginComponent implements OnDestroy {
                 ofActionSuccessful(Auth.Login),
                 takeUntil(this.unsubscribe$)
             )
-            .subscribe(() => { this.router.navigateByUrl('/member/dashboard'); });
+            .subscribe(() => { this.ngZone.run(() => this.router.navigateByUrl('/member/dashboard')); });
 
         this.actions$
             .pipe(
