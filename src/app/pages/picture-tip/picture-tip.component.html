@@ -2,10 +2,10 @@
 
 <ng-container *ngIf="picture$ | async as picture">
     <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
-            
+
     <div class="info">
-        <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.createdBy }}</span></h3>
-        <span>{{ picture.createdDate | date:'d. MMMM yyyy, HH:mm' }}</span>
+        <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.user_created }}</span></h3>
+        <span>{{ picture.date_created | date:'d. MMMM yyyy, HH:mm' }}</span>
     </div>
 </ng-container>
 

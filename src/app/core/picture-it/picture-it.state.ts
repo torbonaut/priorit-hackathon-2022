@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { mergeMap, tap } from "rxjs";
 import { Pictures } from "./picture-it.actions";
-import { EmptyPictureState, Picture, PictureItApiResponse, PicturesStateModel } from "./picture-it.model";
+import { EmptyPictureState, FileUploadApiResponse, Picture, PictureItApiResponse, PicturesStateModel } from "./picture-it.model";
 import { PictureItService } from "./picture-it.service";
 
 @State({
@@ -30,7 +30,7 @@ export class PicturesState {
             .pipe(
                 tap((response: PictureItApiResponse) => {
                     const ids: number[] = [];
-                    const items: { [key: number]: Picture } = { };
+                    const items: { [key: number]: Picture } = {};
 
                     response.data.forEach((item: Picture) => {
                         ids.push(item.id);
@@ -45,6 +45,23 @@ export class PicturesState {
     @Action(Pictures.Add)
     add(ctx: StateContext<PicturesStateModel>, action: Pictures.Add) {
         return this.pictureItService.addPicture(action.payload);
+    }
+
+    @Action(Pictures.UploadFile)
+    uploadFile(ctx: StateContext<PicturesStateModel>, action: Pictures.UploadFile) {
+        return this.pictureItService.addFile(action.payload.file).pipe(
+            mergeMap((uploadRes: FileUploadApiResponse) =>
+            {
+                return this.store.dispatch(
+                    new Pictures.Add({
+                        title: action.payload.title,
+                        tip: action.payload.tip,
+                        is_open: true,
+                        picture: uploadRes.data.id
+                    }));
+                }
+            )
+        );
     }
 
 }

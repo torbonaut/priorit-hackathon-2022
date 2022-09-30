@@ -1,7 +1,10 @@
+import { PictureUpload } from './../../core/picture-it/picture-it.model';
+import { Pictures } from './../../core/picture-it/picture-it.actions';
 import {
     Component, Input, ElementRef, AfterViewInit, ViewChild, ChangeDetectionStrategy
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import { fromEvent } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators'
 import { AppHeaderTitleService } from 'src/app/app-header-title.service';
@@ -30,6 +33,7 @@ export class DrawPictureComponent {
 
     constructor(
         headerTitleService: AppHeaderTitleService,
+        private store: Store,
     ) {
         headerTitleService.set('Zeichne ein Bild');
 
@@ -103,7 +107,36 @@ export class DrawPictureComponent {
 
     submitForm() {
         const canvasEl: HTMLCanvasElement = this.canvas?.nativeElement;
-        const img = canvasEl.toDataURL('image/png');
-        console.log(img);
+
+        const file:FormData = new FormData();
+        file.append('title', 'demoimg');
+        file.append('file', this.dataURItoBlob(canvasEl.toDataURL('image/png')));
+        const pictureUpload:PictureUpload = {
+            file: file,
+            title: this.form.value.title || '',
+            tip: this.form.value.tip || '',
+        };
+        this.store.dispatch(
+            new Pictures.UploadFile(pictureUpload))
     }
+
+    private dataURItoBlob(dataURI:string):Blob {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ab], {type: mimeString});
+    }
+
+
 }
