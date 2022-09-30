@@ -2,10 +2,15 @@ export interface Picture {
     id: number;
     title: string;
     picture: string;
-    createdBy: number;
+    createdBy: string;
     createdDate: string;
     is_open: boolean;
     tip: String;
+}
+
+export interface PictureClose {
+    id: number;
+    is_open: boolean;
 }
 
 export interface PicturesStateModel {

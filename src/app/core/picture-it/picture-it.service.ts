@@ -13,4 +13,12 @@ export class PictureItService {
     loadPictures(): Observable<PictureItApiResponse> {
         return this.http.get<PictureItApiResponse>(this.API_URL);
     }
+
+    updatePicture(id: number, is_open: boolean) {
+
+        return this.http.patch(this.API_URL + '/' + id, {
+                is_open
+            }
+        );
+    }
 }

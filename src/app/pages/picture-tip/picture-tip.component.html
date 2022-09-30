@@ -9,7 +9,7 @@
     </div>
 </ng-container>
 
-<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+<form *ngIf="!isMyPicture" nz-form [formGroup]="form" (ngSubmit)="submitForm()">
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="title">Dein Tip</nz-form-label>
         <nz-form-control [nzSpan]="14">
@@ -34,8 +34,8 @@
             <div class="info">
                 <h3 nz-typography>{{ tip.tip }}<br /></h3>
             </div>
-            <div class="action">
-                <button nz-button>OK</button>
+            <div *ngIf="!isMyPicture" class="action">
+                <button nz-button (click)="acceptTip(tip)">OK</button>
             </div>
 
         </div>
@@ -46,4 +46,5 @@
     Leider keine Tips vorhanden
 </ng-template>
 
+{{ picture$ | async | json }}<br>
 {{ allPictureTips$ | async | json }}

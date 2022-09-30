@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { Store } from "@ngxs/store";
-import { map, Observable, Subject } from 'rxjs';
+import { Router } from "@angular/router";
+import { Actions, ofActionSuccessful, Store } from "@ngxs/store";
+import { filter, map, Observable, Subject, takeUntil, withLatestFrom } from 'rxjs';
 import { AppHeaderTitleService } from "src/app/app-header-title.service";
 import { Pictures } from "src/app/core/picture-it/picture-it.actions";
-import { Picture } from "src/app/core/picture-it/picture-it.model";
+import { Picture, PictureClose } from "src/app/core/picture-it/picture-it.model";
 import { PicturesState } from "src/app/core/picture-it/picture-it.state";
 import { PictureTips } from "src/app/core/picture-tip/picture-tip.actions";
-import { PictureTip } from "src/app/core/picture-tip/picture-tip.model";
+import { PictureTip, PictureTipClose } from "src/app/core/picture-tip/picture-tip.model";
 import { PictureTipState } from "src/app/core/picture-tip/picture-tip.state";
 import { User } from "src/app/core/user/user.actions";
 import { UserStateModel } from "src/app/core/user/user.model";
@@ -27,6 +28,7 @@ export class PictureTipComponent implements OnDestroy{
     picture$: Observable<Picture|undefined>;
     pictureId: number;
     user$: Observable<UserStateModel>;
+    isMyPicture: boolean;
 
     allPictureTips$: Observable<PictureTip[]>;
 
@@ -36,14 +38,19 @@ export class PictureTipComponent implements OnDestroy{
 
     constructor(
         headerTitleService: AppHeaderTitleService,
-        private readonly store: Store
+        private readonly store: Store,
+        private readonly router: Router,
+        private readonly actions$: Actions,
     ) {
 
         this.pictureId = 1;
+        this.isMyPicture = false;
+
+      
         headerTitleService.set('Tipp abgeben');
 
         this.store.dispatch(new Pictures.LoadAll());
-
+        this.store.dispatch(new PictureTips.LoadAll());
         this.user$ = this.store.select(UserState.userData);
         this.userData$ = store.select(UserState.userData);
         this.allPictures$ = this.store.select(PicturesState.all);
@@ -52,22 +59,67 @@ export class PictureTipComponent implements OnDestroy{
             map(pictures => pictures.find(item => item.id === this.pictureId))
         );
 
+        this.picture$.subscribe(picture => {
+            this.userData$.subscribe(user => {
+                if (user.id === picture?.createdBy) {
+                    this.isMyPicture = true;
+                }
+            });
+        });           
+    
+
         this.allPictureTips$ = this.store.select(PictureTipState.all);
-        
+        this.allPictureTips$ = this.allPictureTips$.pipe(        
+            withLatestFrom(this.user$),
+            map(([tip]) =>
+                tip.filter((item) => item.picture_id === this.pictureId)
+            )
+        );
+
+        this.actions$
+            .pipe(
+                ofActionSuccessful(PictureTips.Add),
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe(() => { this.router.navigateByUrl('/member/picture-tip'); });
+
+            this.actions$
+            .pipe(
+                ofActionSuccessful(Pictures.Update),
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe(() => { this.router.navigateByUrl('/member/picture-it'); });
+               
     }
 
     submitForm(): void {
-        this.userData$.subscribe(user =>
             this.store.dispatch(
                 new PictureTips.Add({
                     tip: this.form.value.myTip || '',
-                    is_correct: false
-                }))
-        );
+                    is_correct: false,
+                    picture_id: this.pictureId
+                }));
       }
 
       ngOnDestroy(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    acceptTip(tip: PictureTip) {
+        const user: UserStateModel = this.store.selectSnapshot(UserState.userData);
+        
+        const pictureTipClose: PictureTipClose = {
+            id: tip.id,
+            is_correct: true
+        }
+
+        const pictureClose: PictureClose = {
+            id: this.pictureId,
+            is_open: false
+        }
+
+        this.store.dispatch(new PictureTips.Update(pictureTipClose));
+        this.store.dispatch(new Pictures.Update(pictureClose));
     }
 }

@@ -23,7 +23,13 @@ export class PicturesState {
         return Object.keys(items).map(key => items[parseInt(key)]);
     }
 
-    
+    @Action(Pictures.Update)
+    update(ctx: StateContext<PicturesStateModel>, action: Pictures.Update) {
+        return this.pictureItService.updatePicture(action.payload.id, action.payload.is_open).pipe(
+            mergeMap(() => this.store.dispatch(new Pictures.Refresh))
+        );
+    }
+
     @Action(Pictures.LoadAll)
     loadAll(ctx: StateContext<PicturesStateModel>, action: Pictures.LoadAll) {
         return this.pictureItService.loadPictures()
