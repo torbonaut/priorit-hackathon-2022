@@ -26,7 +26,7 @@
             <li  *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Allgemein" nzIcon="appstore">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a [routerLink]="navigate('/member/welcome')">Willkommen</a>
+                        <a [routerLink]="navigate('/member/dashboard')">Dashboard</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a [routerLink]="navigate('/member/profile')">Benutzerprofil</a>

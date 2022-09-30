@@ -1,0 +1,22 @@
+div.event {
+    display: flex;
+    width: 100%;
+
+    img.avatar {
+        flex: 0 0 64px;
+    }
+
+    div.info {
+        padding: 0 1em;
+        flex: 1 1 auto;
+        h3 {
+        }
+
+        span {
+        }
+    }
+
+    div.action {
+        flex: 0 0 64px;
+    }
+}

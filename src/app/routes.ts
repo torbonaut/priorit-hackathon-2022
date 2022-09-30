@@ -7,19 +7,19 @@ export const ROUTES: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/member/welcome',
+        redirectTo: '/member/dashboard',
     },
     {
         path: 'member',
         canActivate: [AuthGuard],
         children: [
             {
-                path: 'welcome',
+                path: 'dashboard',
                 loadChildren: () =>
                     import('./pages/welcome/welcome.module').then(
                         (m) => m.WelcomeModule
                     ),
-                title: TITLE_PREFIX + 'Willkommen',
+                title: TITLE_PREFIX + 'Dashboard',
             },
             {
                 path: 'profile',
