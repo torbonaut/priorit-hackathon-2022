@@ -29,7 +29,14 @@ export class PictureTipState {
             mergeMap(() => this.store.dispatch(new PictureTips.Refresh))
         );
     }
-    
+
+    @Action(PictureTips.Update)
+    update(ctx: StateContext<PictureTipStateModel>, action: PictureTips.Update) {
+        return this.pictureTipService.updatePictureTips(action.payload.id, action.payload.is_correct).pipe(
+            mergeMap(() => this.store.dispatch(new PictureTips.Refresh))
+        );
+    }
+ 
     @Action(PictureTips.LoadAll)
     loadAll(ctx: StateContext<PictureTipStateModel>, action: PictureTips.LoadAll) {
         return this.pictureTipService.loadPictureTips()

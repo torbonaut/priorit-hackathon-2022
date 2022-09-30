@@ -1,22 +1,22 @@
-import { Picture, PictureUpload } from "./picture-it.model";
+
+import { Picture, PictureClose, PictureUpload } from "./picture-it.model";
 
 export namespace Pictures {
 
     export class Refresh {
-        static readonly type = '[Picture] Refresh Pictures';
+        static readonly type = '[Pictures] Refresh Pictures';
     }
 
     export class LoadAll {
-        static readonly type = '[Picture] Load All';
+        static readonly type = '[Pictures] Load All';
     }
 
     export class LoadById {
-        static readonly type = '[Picture] Load By Id';
+        static readonly type = '[Pictures] Load By Id';
         constructor(public payload: number) {
 
         };
     }
-
     export class Add {
         static readonly type = '[Picture] Add';
         constructor(public payload: Omit<Picture, 'user_created' | 'id' | 'date_created'>) {}
@@ -26,4 +26,9 @@ export namespace Pictures {
         static readonly type = '[Picture] Upload Image';
         constructor(public payload: PictureUpload) {}
     }
+    export class Update {
+        static readonly type = '[Pictures] Update';
+        constructor(public payload: PictureClose) {}
+}
+
 }

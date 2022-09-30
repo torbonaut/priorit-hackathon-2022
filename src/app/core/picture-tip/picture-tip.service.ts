@@ -17,4 +17,12 @@ export class PictureTipService {
     addPictureTips(item: Omit<PictureTip, "id" | 'user_created' | 'date_created'>) {
         return this.http.post(this.API_URL, { ...item });
     }
+
+    updatePictureTips(id: number, is_correct: boolean) {
+
+        return this.http.patch(this.API_URL + '/' + id, {
+            is_correct
+            }
+        );
+    }
 }

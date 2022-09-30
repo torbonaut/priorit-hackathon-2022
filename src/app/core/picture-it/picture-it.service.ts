@@ -22,4 +22,12 @@ export class PictureItService {
     addFile(imageFile: FormData): Observable<FileUploadApiResponse> {
         return this.http.post<FileUploadApiResponse>(this.FILE_URL, imageFile);
     }
+
+    updatePicture(id: number, is_open: boolean) {
+
+        return this.http.patch(this.API_URL + '/' + id, {
+                is_open
+            }
+        );
+    }
 }
