@@ -14,7 +14,7 @@
                 alt="priorIT"
                 [ngClass]="{ small: isCollapsed === true }"
             />
-            <h1>SomeApp</h1>
+            <h1 nz-typography>Spaß am Campus</h1>
         </div>
         <ul
             nz-menu
@@ -39,7 +39,7 @@
                     </li>
                 </ul>
             </li>
-            <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Test" nzIcon="form">
+            <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Apps" nzIcon="form">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
                         <a [routerLink]="navigate('/member/dummy')">Dummy</a>
@@ -69,6 +69,5 @@
                 <router-outlet></router-outlet>
             </div>
         </nz-content>
-        <nz-footer>Yolo Bolo</nz-footer>
     </nz-layout>
 </nz-layout>
