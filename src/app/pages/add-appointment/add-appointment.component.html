@@ -12,13 +12,13 @@
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="title">Thema</nz-form-label>
         <nz-form-control [nzSpan]="14">
-            <input nz-input formControlName="title" name="title" type="text" id="title">
+            <input nz-input formControlName="title" name="title" type="text" id="title" style="width: 100%;">
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="4" nzFor="when">Datum / Zeit</nz-form-label>
+        <nz-form-label [nzSpan]="4" nzFor="appointmentDateTime">Datum / Zeit</nz-form-label>
         <nz-form-control [nzSpan]="14">
-            <nz-date-picker name="when" formControlName="when" nzShowTime nzFormat="dd.MM.yyyy HH:mm:ss">
+            <nz-date-picker name="appointmentDateTime" formControlName="appointmentDateTime" nzShowTime nzFormat="dd.MM.yyyy HH:mm">
             </nz-date-picker>
         </nz-form-control>
     </nz-form-item>
@@ -32,7 +32,7 @@
     </nz-form-item>
     <nz-form-item>
         <nz-form-control>
-            <button nz-button nzType="primary">Erstellen</button>
+            <button nz-col [nzOffset]="4" nz-button nzType="primary">Erstellen</button>
         </nz-form-control>
     </nz-form-item>
 </form>

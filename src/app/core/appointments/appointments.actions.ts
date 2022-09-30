@@ -16,7 +16,7 @@ export namespace Appointments {
 
     export class Add {
         static readonly type = '[Appointments] Add';
-        constructor(public payload: Omit<Appointment, 'id' | 'createdBy' | 'createdDate'>) {}
+        constructor(public payload: Omit<Appointment, 'id' | 'user_created' | 'date_created'>) {}
     }
 
     export class Delete {
