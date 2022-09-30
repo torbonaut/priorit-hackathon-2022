@@ -38,8 +38,8 @@ export class AppLoginComponent implements OnDestroy {
     login() {
         this.store.dispatch(
             new Auth.Login({
-                email: 'marion.musterfrau@membermembermember.com',
-                password: '!test1234',
+                email: 'torben.gallob2@priorit-services.com',
+                password: '!Test1234',
             })
         );
     }
