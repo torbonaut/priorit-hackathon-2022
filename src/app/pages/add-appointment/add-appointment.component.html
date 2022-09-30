@@ -1,0 +1,25 @@
+<h1>Neue Aktivität erstellen</h1>
+<form nz-form>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="category">Kategorie</nz-form-label>
+        <nz-select id="category" formControlName="category" nzPlaceHolder="Wähle eine Kategorie aus ...">
+            <nz-option nzValue="Spaß in der Kaffeepause" nzLabel="Spaß in der Kaffeepause"></nz-option>
+            <nz-option nzValue="Spaß mit Bier" nzLabel="Spaß mit Bier"></nz-option>
+        </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="title">Thema</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input name="title" type="text" id="title">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="time">Datum / Zeit</nz-form-label>
+        <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel></nz-date-picker>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-button nzType="primary">Erstellen</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

@@ -22,6 +22,14 @@ export const ROUTES: Routes = [
                 title: TITLE_PREFIX + 'Dashboard',
             },
             {
+                path: 'add-appointment',
+                loadChildren: () =>
+                    import('./pages/add-appointment/add-appointment.module').then(
+                        (m) => m.AddAppointmentModule
+                    ),
+                title: TITLE_PREFIX + 'Neue Aktivität erstellen',
+            },
+            {
                 path: 'profile',
                 loadChildren: () =>
                     import('./pages/profile/profile.module').then(
