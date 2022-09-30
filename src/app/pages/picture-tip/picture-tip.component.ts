@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Actions, ofActionSuccessful, Store } from "@ngxs/store";
 import { filter, map, Observable, Subject, takeUntil, withLatestFrom } from 'rxjs';
 import { AppHeaderTitleService } from "src/app/app-header-title.service";
@@ -21,7 +21,7 @@ import { UserState } from "src/app/core/user/user.state";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PictureTipComponent implements OnDestroy{
-
+    
     private unsubscribe$: Subject<void> = new Subject();
     userData$: Observable<UserStateModel>;
     allPictures$: Observable<Picture[]>;
@@ -40,13 +40,16 @@ export class PictureTipComponent implements OnDestroy{
         headerTitleService: AppHeaderTitleService,
         private readonly store: Store,
         private readonly router: Router,
+        private route: ActivatedRoute,
         private readonly actions$: Actions,
     ) {
+        this.pictureId = 0;
+        this.route.params.subscribe(params => {
+            this.pictureId = +params['id']; 
+        });
 
-        this.pictureId = 1;
         this.isMyPicture = false;
 
-      
         headerTitleService.set('Tipp abgeben');
 
         this.store.dispatch(new Pictures.LoadAll());
@@ -81,7 +84,7 @@ export class PictureTipComponent implements OnDestroy{
                 ofActionSuccessful(PictureTips.Add),
                 takeUntil(this.unsubscribe$)
             )
-            .subscribe(() => { this.router.navigateByUrl('/member/picture-tip'); });
+            .subscribe(() => { this.router.navigateByUrl('/member/picture-tip/picture' + this.pictureId); });
 
             this.actions$
             .pipe(

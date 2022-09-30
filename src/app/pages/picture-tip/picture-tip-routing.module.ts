@@ -4,7 +4,7 @@ import { PictureTipComponent } from "./picture-tip.component";
 
 const PICTURE__IT_ROUTES: Routes = [
     {
-        path: '',
+        path: 'picture/:id',
         component: PictureTipComponent
     }
 ];

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { filter, map, Observable, pipe, Subject, Subscription, takeUntil, tap, withLatestFrom } from 'rxjs';
 import { AppHeaderTitleService } from "src/app/app-header-title.service";
@@ -24,7 +25,8 @@ export class PictureItComponent {
 
     constructor(
         headerTitleService: AppHeaderTitleService,
-        private readonly store: Store
+        private readonly store: Store,
+        private readonly router: Router,
     ) {
         headerTitleService.set('Tipp abgeben');
 
@@ -46,6 +48,10 @@ export class PictureItComponent {
             )
         );
 
+    }
+
+    openPicture(picture: Picture) {
+        this.router.navigateByUrl('/member/picture-tip/picture/' + picture.id);
     }
 
     submitForm(): void {

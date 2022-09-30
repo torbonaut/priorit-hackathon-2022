@@ -34,8 +34,8 @@
             <div class="info">
                 <h3 nz-typography>{{ tip.tip }}<br /></h3>
             </div>
-            <div *ngIf="!isMyPicture" class="action">
-                <button nz-button (click)="acceptTip(tip)">OK</button>
+            <div *ngIf="isMyPicture" class="action">
+                <button nz-button (click)="acceptTip(tip)">RICHTIG</button>
             </div>
 
         </div>
