@@ -23,42 +23,91 @@ export class DashboardComponent implements OnDestroy {
   unsubscribe$: Subject<void> = new Subject();
 
 
-    constructor(
-        private readonly headerTitleService: AppHeaderTitleService,
-        private readonly store: Store
-    ) {
-        this.headerTitleService.set('Dashboard');
+  constructor(
+    private readonly headerTitleService: AppHeaderTitleService,
+    private readonly store: Store
+  ) {
+    this.headerTitleService.set('Dashboard');
 
-      this.store.dispatch(new Appointments.LoadAll());
+    this.store.dispatch(new Appointments.LoadAll());
 
-      this.userLoaded$ = this.store.select(UserState.isLoaded);
-      this.userLoaded$.pipe(takeUntil(this.unsubscribe$)).subscribe(isUserLoaded => {
-        if (!isUserLoaded) {
-          this.store.dispatch(new User.GetCurrent());
-        }
-      })
+    this.userLoaded$ = this.store.select(UserState.isLoaded);
+    this.userLoaded$.pipe(takeUntil(this.unsubscribe$)).subscribe(isUserLoaded => {
+      if (!isUserLoaded) {
+        this.store.dispatch(new User.GetCurrent());
+      }
+    })
       
-      this.user$ = this.store.select(UserState.userData);
+    this.user$ = this.store.select(UserState.userData);
 
-      this.allAppointments$ = this.store.select(AppointmentsState.all);
-      this.myAppointments$ = this.allAppointments$.pipe(
-          withLatestFrom(this.user$),
-          map(([appointments, user]) =>
-              appointments.filter((item) => item.user_created === user.id)
-          )
-      );
-      this.otherAppointments$ = this.allAppointments$.pipe(
-                withLatestFrom(this.user$),
-                map(([appointments, user]) =>
-                    appointments.filter(
-                        (item) => item.user_created !== user.id
-                    )
-                )
-            );
-    }
+    this.allAppointments$ = this.store.select(AppointmentsState.all);
+    this.myAppointments$ = this.allAppointments$.pipe(
+      withLatestFrom(this.user$),
+      map(([appointments, user]) =>
+        appointments.filter(
+          (item) => {
+            if (item.user_created === user.id) { return true; }
+
+            if (item.participants) {
+              let participants = JSON.parse(item.participants);
+
+              if (participants.find((p: any) => p.userId === user.id)) {
+                return true;
+              }
+            }
+            return false;
+                
+          }
+        )
+      ));
+      
+    this.otherAppointments$ = this.allAppointments$.pipe(
+      withLatestFrom(this.user$),
+      map(([appointments, user]) =>
+        appointments.filter(
+          (item) => {
+            if (item.user_created !== user.id) { return true; }
+
+            if (item.participants) {
+              let participants = JSON.parse(item.participants);
+
+              if (!participants.find((p: any) => p.userId === user.id)) {
+                return true;
+              }
+            }
+            return false;
+                
+          }
+        )
+      ))
+  };
   
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
+  addUser(appointment: Appointment) {
+    const user: UserStateModel = this.store.selectSnapshot(UserState.userData);
+
+    const appointmentId = appointment.id;
+    const userId = user.id;
+    const userName = user.firstname + ' ' + user.lastname.charAt(0) + '.';
+
+    this.store.dispatch(new Appointments.AddUser({ appointmentId, userId, userName }));
+  }
+
+  removeUser(appointment: Appointment) {
+    const user = this.store.selectSnapshot(UserState.userData);
+    const owner: boolean = appointment.user_created === user.id;
+
+    if (owner === true) {
+      this.store.dispatch(new Appointments.Delete(appointment.id));
+      return;
+    }
+
+    this.store.dispatch(new Appointments.RemoveUser({ appointmentId: appointment.id, userId: user.id }));
+
+  }
+
 }

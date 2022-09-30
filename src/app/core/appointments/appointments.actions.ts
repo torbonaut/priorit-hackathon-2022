@@ -26,11 +26,11 @@ export namespace Appointments {
 
     export class AddUser {
         static readonly type = '[Appointments] Add User';
-        constructor(payload: { appointmentId: number, participants: string }) {}
+        constructor(public payload: { appointmentId: number, userId: string, userName: string }) {}
     }
 
     export class RemoveUser {
         static readonly type = '[Appointments] Remove User';
-        constructor(payload: { appointmentId: number, userId: string}) {}
+        constructor(public payload: { appointmentId: number, userId: string}) {}
     }
 }
