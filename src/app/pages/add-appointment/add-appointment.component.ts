@@ -65,7 +65,7 @@ export class AddAppointmentComponent implements OnDestroy {
                     appointmentDateTime: this.form.value.appointmentDateTime?.toISOString().replace(/.\d+Z$/g, "") || '',
                     category: this.form.value.category || '',
                     title: this.form.value.title || '',
-                    participants: '',
+                    participants: JSON.stringify([{ userId: user.id, userName: user.firstname + ' ' + user.lastname.charAt(0) + '.'}]),
                     avatar: user.avatar,
                 }))
         );
