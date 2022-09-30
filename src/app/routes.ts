@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/auth/auth.guard';
 
-const TITLE_PREFIX = 'priorIT SomeApp - ';
+const TITLE_PREFIX = 'priorIT Spaß am Campus - ';
 
 export const ROUTES: Routes = [
     {

@@ -26,10 +26,10 @@
             <li  *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Allgemein" nzIcon="appstore">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a [routerLink]="navigate('/member/dashboard')">Dashboard</a>
+                        <a routerLink="/member/dashboard">Dashboard</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
-                        <a [routerLink]="navigate('/member/profile')">Benutzerprofil</a>
+                        <a routerLink="/member/profile">Benutzerprofil</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a (click)="logout()">Abmelden</a>
@@ -39,16 +39,16 @@
             <li *ngIf="isAuthenticated$ | async" nz-submenu nzOpen nzTitle="Apps" nzIcon="form">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a [routerLink]="navigate('/member/add-appointment')">Teamtreff</a>
+                        <a routerLink="/member/add-appointment">Teamtreff</a>
+                    </li>
+                                        <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/member/picture-it">A wos isn des?</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/member/what-would-i-be-as">WasWärIch</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/member/billatschnig">A gemma Billatschnig?</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a [routerLink]="navigate('/member/picture-it')">Picture It</a>
                     </li>
                 </ul>
             </li>

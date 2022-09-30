@@ -25,7 +25,7 @@ export class PictureTipState {
     
     @Action(PictureTips.Add)
     add(ctx: StateContext<PictureTipStateModel>, action: PictureTips.Add) {
-        console.log('<olo');
+
         return this.pictureTipService.addPictureTips(action.payload).pipe(
             tap( (response: { data: PictureTip }) => {
                 const state = ctx.getState();

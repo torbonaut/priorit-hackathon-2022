@@ -48,7 +48,4 @@ export class PictureItComponent {
 
     }
 
-    submitForm(): void {
-        console.log('submit');
-      }
 }

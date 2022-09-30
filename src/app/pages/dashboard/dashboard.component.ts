@@ -5,6 +5,8 @@ import { AppHeaderTitleService } from 'src/app/app-header-title.service';
 import { Appointments } from 'src/app/core/appointments/appointments.actions';
 import { Appointment } from 'src/app/core/appointments/appointments.model';
 import { AppointmentsState } from 'src/app/core/appointments/appointments.state';
+import { Picture } from 'src/app/core/picture-it/picture-it.model';
+import { PicturesState } from 'src/app/core/picture-it/picture-it.state';
 import { User } from 'src/app/core/user/user.actions';
 import { UserStateModel } from 'src/app/core/user/user.model';
 import { UserState } from 'src/app/core/user/user.state';
@@ -20,6 +22,8 @@ export class DashboardComponent implements OnDestroy {
     otherAppointments$: Observable<Appointment[]>;
   user$: Observable<UserStateModel>;
   unsubscribe$: Subject<void> = new Subject();
+
+  pictures$: Observable<Picture[]>;
 
 
   constructor(
@@ -37,6 +41,10 @@ export class DashboardComponent implements OnDestroy {
     if (!isUserLoaded) {
       this.store.dispatch(new User.GetCurrent());
     }
+
+    this.pictures$ = this.store.select(PicturesState.all).pipe(
+      map(pictures => pictures.filter(item => item.is_open === true))
+    );
 
     this.allAppointments$ = this.store.select(AppointmentsState.all);
 

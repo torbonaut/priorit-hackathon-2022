@@ -55,7 +55,4 @@ export class PictureItComponent {
         this.ngZone.run(() =>this.router.navigateByUrl('/member/picture-tip/picture/' + picture.id));
     }
 
-    submitForm(): void {
-        console.log('submit');
-      }
 }

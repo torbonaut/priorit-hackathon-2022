@@ -1,4 +1,4 @@
-<button nz-button routerLink="/member/draw-picture">NEUES BILD</button>
+<button nz-button nzType="primary" routerLink="/member/draw-picture">NEUES BILD</button>
 
 <h1 nz-typography>Neue Bilder</h1>
 
@@ -25,7 +25,9 @@
     *ngIf="oldPictures$ | async as other; else noPictures">
     <ng-container *ngIf="other.length > 0; else noPictures">
         <div class="picture" *ngFor="let picture of other">
-            <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
+                        <div class="avatar">
+                <img class="avatar" (click)="openPicture(picture)" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
+            </div>
 
             <div class="info">
                 <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.user_created }}</span></h3>
