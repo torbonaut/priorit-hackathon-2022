@@ -44,7 +44,15 @@ export const ROUTES: Routes = [
                         (m) => m.DummyModule
                     ),
                 title: TITLE_PREFIX + 'Dummy',
-            }
+            },
+            {
+                path: 'draw-picture',
+                loadChildren: () =>
+                    import('./pages/draw-picture/draw-picture.module').then(
+                        (m) => m.DrawPictureModule
+                    ),
+                title: TITLE_PREFIX + 'Bild zeichen',
+            },
         ],
     },
 
