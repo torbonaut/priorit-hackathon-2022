@@ -21,10 +21,11 @@ export class AppointmentsService {
 
     addUser(id: number, participants: string) {
 
-        return this.http.patch(this.API_URL, {
-            id,
-            participants
-        });
+        return this.http.patch(this.API_URL + '/' + id, {
+                id,
+                participants
+            }
+        );
     }
 
     deleteAppointment(id: number) {

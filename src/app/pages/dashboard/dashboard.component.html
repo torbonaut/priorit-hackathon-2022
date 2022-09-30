@@ -3,14 +3,14 @@
 <h2 nz-typography><span nz-icon nzType="user"></span>Meine Aktivitäten</h2>
 <ng-container *ngIf="myAppointments$ | async as my; else noOwnAppointments">
     <ng-container *ngIf="my.length > 0; else noOwnAppointments">
-        <div class="event">
-            <img class="avatar" src="/assets/images/avatar-demo.jpg" />
+        <div class="event" *ngFor="let event of my">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ event.avatar }}/avatar.jpg" />
             <div class="info">
-                <h3 nz-typography>Spaß mit Bier (Raime)</h3>
-                <span>15:30</span>
+                <h3 nz-typography>{{ event.title}} ({{ event | appointmentUsers }})<br /><span>{{ event.category }}</span></h3>
+                <span>{{ event.appointmentDateTime | date:'d. MMMM yyyy, HH:mm' }}</span>
             </div>
             <div class="action">
-                <button nz-button nzType="primary">-</button>
+                <button nz-button nzType="primary" (click)="removeUser(event)">-</button>
             </div>
         </div>
     </ng-container>
@@ -30,7 +30,7 @@
                 <span>{{ event.appointmentDateTime | date:'d. MMMM yyyy, HH:mm' }}</span>
             </div>
             <div class="action">
-                <button nz-button>+</button>
+                <button nz-button (click)="addUser(event)">+</button>
             </div>
         </div>
     </ng-container>
