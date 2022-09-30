@@ -23,4 +23,14 @@ export namespace Appointments {
         static readonly type = '[Appointments] Delete';
         constructor(public payload: number) {}
     }
+
+    export class AddUser {
+        static readonly type = '[Appointments] Add User';
+        constructor(payload: { appointmentId: number, participants: string }) {}
+    }
+
+    export class RemoveUser {
+        static readonly type = '[Appointments] Remove User';
+        constructor(payload: { appointmentId: number, userId: string}) {}
+    }
 }

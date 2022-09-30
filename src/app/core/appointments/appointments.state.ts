@@ -52,4 +52,9 @@ export class AppointmentsState {
     refresh(ctx: StateContext<AppointmentsStateModel>, action: Appointments.Refresh) {
         return this.store.dispatch(new Appointments.LoadAll());
     }
+
+    @Action(Appointments.AddUser)
+    addUser(ctx: StateContext<AppointmentsStateModel>, action: Appointments.AddUser) {
+        const state = ctx.getState();
+    }
 }

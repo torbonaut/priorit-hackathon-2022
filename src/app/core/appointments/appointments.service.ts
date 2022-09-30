@@ -19,5 +19,15 @@ export class AppointmentsService {
         return this.http.post(this.API_URL, { ...item });
     }
 
-    deleteAppointment() {}
+    addUser(id: number, participants: string) {
+
+        return this.http.patch(this.API_URL, {
+            id,
+            participants
+        });
+    }
+
+    deleteAppointment(id: number) {
+        return this.http.delete(this.API_URL + '/' + id);
+    }
 }
