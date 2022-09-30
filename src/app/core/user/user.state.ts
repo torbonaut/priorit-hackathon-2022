@@ -36,7 +36,8 @@ export class UserState  {
                     description: response.data.description,
                     email: response.data.email,
                     status: response.data.status,
-                    title: response.data.title
+                    title: response.data.title,
+                    avatar: response.data.avatar
                 });
             })
         );

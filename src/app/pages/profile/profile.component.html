@@ -1,3 +1,8 @@
-Profile
+Profil
 
 {{ userData$ | async | json }}
+
+<ng-container *ngIf="userData$ | async as user">
+    <img src="https://k9i9drz6.directus.app/assets/{{ user.avatar }}/avatar.jpg" />
+</ng-container>
+

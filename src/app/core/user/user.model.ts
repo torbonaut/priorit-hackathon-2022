@@ -6,6 +6,7 @@ export interface UserStateModel {
     title: string;
     description: string;
     status: UserStatus | string;
+    avatar: string;
 }
 
 export const EmptyUserState: UserStateModel = {
@@ -15,7 +16,8 @@ export const EmptyUserState: UserStateModel = {
     email: '',
     title: '',
     description: '',
-    status: ''
+    status: '',
+    avatar: ''
 }
 
 export enum UserStatus {
