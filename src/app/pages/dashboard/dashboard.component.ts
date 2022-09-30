@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { filter, map, Observable, pipe, Subject, Subscription, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, filter, map, Observable, Subject, tap, withLatestFrom } from 'rxjs';
 import { AppHeaderTitleService } from 'src/app/app-header-title.service';
 import { Appointments } from 'src/app/core/appointments/appointments.actions';
 import { Appointment } from 'src/app/core/appointments/appointments.model';
@@ -19,7 +19,6 @@ export class DashboardComponent implements OnDestroy {
     myAppointments$: Observable<Appointment[]>;
     otherAppointments$: Observable<Appointment[]>;
   user$: Observable<UserStateModel>;
-  userLoaded$: Observable<boolean>;
   unsubscribe$: Subject<void> = new Subject();
 
 
@@ -31,51 +30,54 @@ export class DashboardComponent implements OnDestroy {
 
     this.store.dispatch(new Appointments.LoadAll());
 
-    this.userLoaded$ = this.store.select(UserState.isLoaded);
-    this.userLoaded$.pipe(takeUntil(this.unsubscribe$)).subscribe(isUserLoaded => {
-      if (!isUserLoaded) {
-        this.store.dispatch(new User.GetCurrent());
-      }
-    })
-      
     this.user$ = this.store.select(UserState.userData);
 
+    const isUserLoaded = this.store.selectSnapshot<boolean>(UserState.isLoaded);
+
+    if (!isUserLoaded) {
+      this.store.dispatch(new User.GetCurrent());
+    }
+
     this.allAppointments$ = this.store.select(AppointmentsState.all);
-    this.myAppointments$ = this.allAppointments$.pipe(
-      withLatestFrom(this.user$),
+
+    this.myAppointments$ = combineLatest([
+        this.allAppointments$,
+        this.user$,
+    ]).pipe(
+        filter(([appointments, user]) => appointments !== undefined && user !== undefined),
+        map(([appointments, user]) =>
+            appointments.filter((item) => {
+                if (item.user_created === user.id) {
+                    return true;
+                }
+
+                if (item.participants) {
+                    let participants = JSON.parse(item.participants);
+
+                    if (participants.find((p: any) => p.userId === user.id)) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+        )
+    );
+      
+    this.otherAppointments$ = combineLatest([this.allAppointments$, this.user$]).pipe(
+      filter(([appointments, user]) => appointments !== undefined && user !== undefined),
       map(([appointments, user]) =>
         appointments.filter(
           (item) => {
-            if (item.user_created === user.id) { return true; }
+            if (item.user_created === user.id) { return false; }
 
             if (item.participants) {
               let participants = JSON.parse(item.participants);
 
               if (participants.find((p: any) => p.userId === user.id)) {
-                return true;
+                return false;
               }
             }
-            return false;
-                
-          }
-        )
-      ));
-      
-    this.otherAppointments$ = this.allAppointments$.pipe(
-      withLatestFrom(this.user$),
-      map(([appointments, user]) =>
-        appointments.filter(
-          (item) => {
-            if (item.user_created !== user.id) { return true; }
-
-            if (item.participants) {
-              let participants = JSON.parse(item.participants);
-
-              if (!participants.find((p: any) => p.userId === user.id)) {
-                return true;
-              }
-            }
-            return false;
+            return true;
                 
           }
         )

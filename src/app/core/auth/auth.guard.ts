@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -13,7 +13,8 @@ export class AuthGuard implements CanActivate {
     constructor(
         private readonly router: Router,
         private readonly msg: NzMessageService,
-        private readonly store: Store
+        private readonly store: Store,
+        private readonly ngZone: NgZone
     ) {
         this.isAuthenticated$ = this.store.select( AuthState.isAuthenticated);
     }
@@ -28,7 +29,7 @@ export class AuthGuard implements CanActivate {
                 if (!isAuthenticated) {
                     this.store.dispatch(new Auth.Logout());
                     this.msg.warning('Sie haben keine Berechtigung.');
-                    this.router.navigateByUrl('/login');
+                    this.ngZone.run( () => this.router.navigateByUrl('/login'));
                 }
             })
         );

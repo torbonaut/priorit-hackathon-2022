@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { catchError, finalize, Observable, of, switchMap, throwError } from 'rxjs';
 import { Auth } from './auth.actions';
+import { AuthStateModel } from './auth.model';
 import { AuthState } from './auth.state';
 
 
@@ -24,7 +25,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        const token = this.store.selectSnapshot<string>(state => state.auth.accessToken);
+        const token = this.store.selectSnapshot<string>( AuthState.accessToken);
 
         if (token) {
             req = req.clone({
@@ -43,6 +44,8 @@ export class AuthTokenInterceptor implements HttpInterceptor {
                 ) {
                     return this.handle401Error(req, next);
                 }
+
+                this.store.reset({});
                 
                 this.isRefreshing = false;
                 return throwError( () => error);

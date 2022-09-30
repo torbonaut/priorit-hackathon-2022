@@ -2,6 +2,13 @@
 
 <h2 nz-typography><span nz-icon nzType="user"></span>Meine Aktivitäten</h2>
 <ng-container *ngIf="myAppointments$ | async as my; else noOwnAppointments">
+            <div class="event">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/beecedde-68ab-422c-a4f9-3d5a2129759f/avatar.jpg" />
+            <div class="info">
+                <h3 nz-typography>Irrlichter in Wien (Torben. G, Christoph G)<br /><span>Random Coffee</span></h3>
+                <span>4. Oktober 2022, 14:30</span>
+            </div>
+        </div>
     <ng-container *ngIf="my.length > 0; else noOwnAppointments">
         <div class="event" *ngFor="let event of my">
             <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ event.avatar }}/avatar.jpg" />
