@@ -36,7 +36,7 @@ export const ROUTES: Routes = [
                         (m) => m.PictureItModule
                     ),
                 title: TITLE_PREFIX + 'Bilderrätsel',
-            }, 
+            },
             {
                 path: 'picture-tip',
                 loadChildren: () =>
@@ -54,21 +54,30 @@ export const ROUTES: Routes = [
                 title: TITLE_PREFIX + 'Profil',
             },
             {
-                path: 'dummy',
+                path: 'billatschnig',
                 loadChildren: () =>
-                    import('./pages/dummy/dummy.module').then(
-                        (m) => m.DummyModule
+                    import('./pages/billatschnig/billatschnig.module').then(
+                        (m) => m.BillatschnigModule
                     ),
-                title: TITLE_PREFIX + 'Dummy',
+                title: TITLE_PREFIX + 'A gemma Billatschnig?',
             },
             {
-                path: 'draw-picture',
+                path: 'what-would-i-be-as',
                 loadChildren: () =>
-                    import('./pages/draw-picture/draw-picture.module').then(
-                        (m) => m.DrawPictureModule
+                    import('./pages/what-would-i-be-as/what-would-i-be-as.module').then(
+                        (m) => m.WhatWouldIBeAsModule
                     ),
-                title: TITLE_PREFIX + 'Bild zeichen',
-            },
+                title: TITLE_PREFIX + 'Was wäre ich als ...?'
+                },
+                {
+                    path: 'draw-picture',
+                    loadChildren: () =>
+                        import('./pages/draw-picture/draw-picture.module').then(
+                            (m) => m.DrawPictureModule
+                        ),
+                    title: TITLE_PREFIX + 'Bild zeichen',
+                }
+
         ],
     },
 

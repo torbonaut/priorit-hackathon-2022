@@ -2,6 +2,13 @@
 
 <h2 nz-typography><span nz-icon nzType="user"></span>Meine Aktivitäten</h2>
 <ng-container *ngIf="myAppointments$ | async as my; else noOwnAppointments">
+            <div class="event">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/beecedde-68ab-422c-a4f9-3d5a2129759f/avatar.jpg" />
+            <div class="info">
+                <h3 nz-typography>Irrlichter in Wien (Torben. G, Christoph G)<br /><span>Random Coffee</span></h3>
+                <span>4. Oktober 2022, 14:30</span>
+            </div>
+        </div>
     <ng-container *ngIf="my.length > 0; else noOwnAppointments">
         <div class="event" *ngFor="let event of my">
             <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ event.avatar }}/avatar.jpg" />
@@ -12,7 +19,7 @@
             <div class="action">
                 <button nz-button nzType="primary" (click)="removeUser(event)">-</button>
             </div>
-        </div>
+        </div>    
     </ng-container>
 </ng-container>
 
@@ -33,6 +40,20 @@
                 <button nz-button (click)="addUser(event)">+</button>
             </div>
         </div>
+        <div class="event">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/479bfddf-9236-4084-8cad-7cbbf33e6441/avatar.jpg" />
+            <div class="info">
+                <h3 nz-typography>Was wäre Engin als Rockband?<br /><span>Was wäre ich als ...?</span></h3>
+                <span>13 Antworten</span>
+            </div>
+        </div>    
+        <div class="event">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/beecedde-68ab-422c-a4f9-3d5a2129759f/avatar.jpg" />
+            <div class="info">
+                <h3 nz-typography>He, I geh Billatschnig!<br /><span>Wer geht mit?</span></h3>
+                <span>um 12 Uhr 15</span>
+            </div>
+        </div> 
     </ng-container>
 </ng-container>
 
