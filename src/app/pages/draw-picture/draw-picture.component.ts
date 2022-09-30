@@ -16,13 +16,14 @@ export class DrawPictureComponent {
 
     @ViewChild('canvas') public canvas: ElementRef | undefined;
 
+    @ViewChild('title') public title: ElementRef | undefined;
+
     @Input() public width = 400;
     @Input() public height = 400;
 
     form = new FormGroup({
-        category: new FormControl(''),
         title: new FormControl(''),
-        appointmentDateTime: new FormControl(new Date()),
+        tip: new FormControl(''),
     });
 
     private cx!: CanvasRenderingContext2D;
@@ -103,5 +104,6 @@ export class DrawPictureComponent {
     submitForm() {
         const canvasEl: HTMLCanvasElement = this.canvas?.nativeElement;
         const img = canvasEl.toDataURL('image/png');
+        console.log(img);
     }
 }
