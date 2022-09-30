@@ -1,3 +1,17 @@
+h2 {
+    border-bottom: 1px solid #eee;
+    margin: 2em 0 1em 0;
+
+    span {
+        margin-right: 0.5em;
+        color: var(--priorit-primary-color);
+    }
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
 div.event {
     display: flex;
     width: 100%;

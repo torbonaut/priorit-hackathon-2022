@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
+
 registerLocaleData(de);
 
 @NgModule({
@@ -53,5 +54,6 @@ registerLocaleData(de);
         { provide: NZ_I18N, useValue: de_DE },
     ],
     bootstrap: [AppComponent],
+    exports: []
 })
 export class AppModule {}
