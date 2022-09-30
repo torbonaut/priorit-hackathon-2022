@@ -38,13 +38,24 @@ export const ROUTES: Routes = [
                 title: TITLE_PREFIX + 'Profil',
             },
             {
-                path: 'dummy',
+                path: 'billatschnig',
                 loadChildren: () =>
-                    import('./pages/dummy/dummy.module').then(
-                        (m) => m.DummyModule
+                    import('./pages/billatschnig/billatschnig.module').then(
+                        (m) => m.BillatschnigModule
                     ),
-                title: TITLE_PREFIX + 'Dummy',
-            }
+                title: TITLE_PREFIX + 'A gemma Billatschnig?',
+            },
+            {
+                path: 'what-would-i-be-as',
+                loadChildren: () => 
+                    import('./pages/what-would-i-be-as/what-would-i-be-as.module').then(
+                        (m) => m.WhatWouldIBeAsModule
+                    ),
+                title: TITLE_PREFIX + 'Was wäre ich als ...?'
+                }
+
+
+            
         ],
     },
 
