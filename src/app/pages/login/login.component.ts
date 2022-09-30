@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
+import { Actions, ofActionErrored, ofActionSuccessful, Store } from '@ngxs/store';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, takeUntil } from 'rxjs';
 import { AppHeaderTitleService } from 'src/app/app-header-title.service';
 import { Auth } from 'src/app/core/auth/auth.actions';
@@ -14,11 +15,16 @@ import { Auth } from 'src/app/core/auth/auth.actions';
 export class AppLoginComponent implements OnDestroy {
     private unsubscribe$: Subject<void> = new Subject();
 
+    userName: string = "";
+    password: string = "";
+
+
     constructor(
         headerTitleService: AppHeaderTitleService,
         private readonly router: Router,
         private readonly store: Store,
-        private readonly actions$: Actions
+        private readonly actions$: Actions,
+        private readonly msg: NzMessageService,
     ) {
         headerTitleService.set('Anmelden');
 
@@ -28,6 +34,12 @@ export class AppLoginComponent implements OnDestroy {
                 takeUntil(this.unsubscribe$)
             )
             .subscribe(() => { this.router.navigateByUrl('/member/dashboard'); });
+
+        this.actions$
+            .pipe(
+                ofActionErrored(Auth.Login),
+                takeUntil(this.unsubscribe$))
+            .subscribe(() => this.msg.error('Benutzername oder Passwort falsch!'))
     }
 
     ngOnDestroy(): void {
@@ -38,8 +50,8 @@ export class AppLoginComponent implements OnDestroy {
     login() {
         this.store.dispatch(
             new Auth.Login({
-                email: 'marion.musterfrau@membermembermember.com',
-                password: '!test1234',
+                email: this.userName,
+                password: this.password,
             })
         );
     }

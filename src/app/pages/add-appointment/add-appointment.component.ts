@@ -14,6 +14,8 @@ import { UserState } from "src/app/core/user/user.state";
 })
 export class AddAppointmentComponent {
     userData$: Observable<UserStateModel>;
+    selectedUsers: string[] = [];
+    availableUsers: string[] = ["Max Muster","Susi Sorglos"];
 
     constructor(
         headerTitleService: AppHeaderTitleService,
