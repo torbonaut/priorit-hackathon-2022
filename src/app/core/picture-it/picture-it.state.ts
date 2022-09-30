@@ -23,7 +23,7 @@ export class PicturesState {
         return Object.keys(items).map(key => items[parseInt(key)]);
     }
 
-    
+
     @Action(Pictures.LoadAll)
     loadAll(ctx: StateContext<PicturesStateModel>, action: Pictures.LoadAll) {
         return this.pictureItService.loadPictures()
@@ -32,7 +32,7 @@ export class PicturesState {
                     const ids: number[] = [];
                     const items: { [key: number]: Picture } = { };
 
-                    response.data.forEach((item: Picture) => { 
+                    response.data.forEach((item: Picture) => {
                         ids.push(item.id);
                         items[item.id] = item;
                     });
@@ -40,6 +40,11 @@ export class PicturesState {
                     ctx.setState({ ids, items });
                 })
             );
+    }
+
+    @Action(Pictures.Add)
+    add(ctx: StateContext<PicturesStateModel>, action: Pictures.Add) {
+        return this.pictureItService.addPicture(action.payload);
     }
 
 }

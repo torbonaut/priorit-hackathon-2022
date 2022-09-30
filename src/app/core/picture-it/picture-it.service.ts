@@ -13,4 +13,8 @@ export class PictureItService {
     loadPictures(): Observable<PictureItApiResponse> {
         return this.http.get<PictureItApiResponse>(this.API_URL);
     }
+
+    addPicture(item: Omit<Picture, 'user_created'>) {
+        return this.http.post(this.API_URL, { ...item });
+    }
 }

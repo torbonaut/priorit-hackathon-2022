@@ -13,7 +13,12 @@ export namespace Pictures {
     export class LoadById {
         static readonly type = '[Picture] Load By Id';
         constructor(public payload: number) {
-            
+
         };
+    }
+
+    export class Add {
+        static readonly type = '[Picture] Add';
+        constructor(public payload: Omit<Picture, 'user_created'>) {}
     }
 }
