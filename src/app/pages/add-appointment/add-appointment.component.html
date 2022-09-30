@@ -1,4 +1,4 @@
-<form nz-form>
+<form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="category">Kategorie</nz-form-label>
         <nz-form-control [nzSpan]="14">
@@ -12,26 +12,27 @@
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="title">Thema</nz-form-label>
         <nz-form-control [nzSpan]="14">
-            <input nz-input name="title" type="text" id="title">
+            <input nz-input formControlName="title" name="title" type="text" id="title" style="width: 100%;">
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="4" nzFor="time">Datum / Zeit</nz-form-label>
+        <nz-form-label [nzSpan]="4" nzFor="appointmentDateTime">Datum / Zeit</nz-form-label>
         <nz-form-control [nzSpan]="14">
-            <nz-date-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel></nz-date-picker>
+            <nz-date-picker name="appointmentDateTime" formControlName="appointmentDateTime" nzShowTime nzFormat="dd.MM.yyyy HH:mm">
+            </nz-date-picker>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label [nzSpan]="4" nzFor="inviteUsers">Benutzer einladen</nz-form-label>
         <nz-form-control [nzSpan]="14">
-        <nz-select id="inviteUsers" nzMode="tags" nzPlaceHolder="Benutzer auswählen">
-            <nz-option *ngFor="let user of availableUsers" [nzLabel]="user" [nzValue]="user"></nz-option>
-        </nz-select>
-    </nz-form-control>
+            <nz-select id="inviteUsers" nzMode="tags" nzPlaceHolder="Benutzer auswählen">
+                <nz-option *ngFor="let user of availableUsers" [nzLabel]="user" [nzValue]="user"></nz-option>
+            </nz-select>
+        </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-control>
-            <button nz-button nzType="primary">Erstellen</button>
+            <button nz-col [nzOffset]="4" nz-button nzType="primary">Erstellen</button>
         </nz-form-control>
     </nz-form-item>
 </form>
