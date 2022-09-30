@@ -30,6 +30,22 @@ export const ROUTES: Routes = [
                 title: TITLE_PREFIX + 'Neue Aktivität erstellen',
             },
             {
+                path: 'picture-it',
+                loadChildren: () =>
+                    import('./pages/picture-it/picture-it.module').then(
+                        (m) => m.PictureItModule
+                    ),
+                title: TITLE_PREFIX + 'Bilderrätsel',
+            }, 
+            {
+                path: 'picture-tip',
+                loadChildren: () =>
+                    import('./pages/picture-tip/picture-tip.module').then(
+                        (m) => m.PictureTipModule
+                    ),
+                title: TITLE_PREFIX + 'Bilderrätsel Tipp',
+            },
+            {
                 path: 'profile',
                 loadChildren: () =>
                     import('./pages/profile/profile.module').then(

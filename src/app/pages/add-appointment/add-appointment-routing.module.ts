@@ -6,6 +6,10 @@ const ADD_APPOINTMENT_ROUTES: Routes = [
     {
         path: '',
         component: AddAppointmentComponent
+    },
+    {
+        path: '',
+        component: AddAppointmentComponent
     }
 ];
 

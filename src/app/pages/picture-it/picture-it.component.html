@@ -1,0 +1,37 @@
+<h1 nz-typography>Neue Bilder</h1>
+
+<ng-container
+    *ngIf="newPictures$ | async as other; else noPictures"
+>
+    <ng-container *ngIf="other.length > 0; else noPictures">
+        <div class="picture" *ngFor="let picture of other">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
+            
+            <div class="info">
+                <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.createdBy }}</span></h3>
+                <span>{{ picture.createdDate | date:'d. MMMM yyyy, HH:mm' }}</span>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+
+<h1 nz-typography>Neue Bilder</h1>
+
+<ng-container
+    *ngIf="oldPictures$ | async as other; else noPictures">
+    <ng-container *ngIf="other.length > 0; else noPictures">
+        <div class="picture" *ngFor="let picture of other">
+            <img class="avatar" src="https://k9i9drz6.directus.app/assets/{{ picture.picture }}/avatar.jpg" />
+            
+            <div class="info">
+                <h3 nz-typography>{{ picture.title}}<br /><span>{{ picture.createdBy }}</span></h3>
+                <span>{{ picture.createdDate | date:'d. MMMM yyyy, HH:mm' }}</span>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+
+<ng-template #noPictures>
+    Leider keine Bilder vorhanden
+</ng-template>
+
